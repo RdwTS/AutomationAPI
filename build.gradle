@@ -1,0 +1,30 @@
+plugins {
+    id("java")
+}
+
+group = "org.ridwan"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//    testImplementation(platform("org.junit:junit-bom:5.9.1"))
+//    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.rest-assured:rest-assured:5.5.1")
+    testImplementation("org.testng:testng:6.11")
+
+    //ver11
+//    testImplementation("org.testng:testng:7.11.0")
+}
+
+//tasks.test {
+//    useJUnitPlatform()
+//}
+
+tasks.test {
+    useTestNG {
+        suiteXmlFiles = [file('src/test/resources/testing.xml')]
+    }
+}
