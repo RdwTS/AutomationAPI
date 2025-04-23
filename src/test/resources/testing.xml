@@ -3,6 +3,7 @@
     <test name="SimpleTest">
         <classes>
             <class name="coba1"/>
+            <class name="apiauto.APITest"/>
         </classes>
     </test>
 </suite>
