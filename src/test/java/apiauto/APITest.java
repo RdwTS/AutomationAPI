@@ -1,10 +1,12 @@
 package apiauto;
 
 import io.restassured.RestAssured;
+import io.restassured.module.jsv.JsonSchemaValidator;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -22,9 +24,7 @@ public class APITest {
         RestAssured.baseURI = baseURL;
 
         // id user
-        int userId     = 5;
-//        String firstName = given().when().get(URL + userId).getBody().jsonPath().get("data.first_name");
-//        System.out.println("First name before change :" + firstName );
+        int userId     =  5 ;
 
 //      user perpage
         given().when().get(URL+userId)
@@ -32,7 +32,22 @@ public class APITest {
                 .log().all()
                 .assertThat().statusCode(200)
                 .assertThat().body("data.id", Matchers.equalTo(5)); // validasi output
-//                .assertThat().body("data.id",Matchers.hasSize(6));
+
+    }
+
+    @Test
+    public void getUserNegative() {
+        //baseURL
+        RestAssured.baseURI = baseURL;
+
+        // id user
+        String userId     = "A";
+
+        // user perpage
+        given().when().get(URL+userId)
+                .then()
+                .log().all()
+                .assertThat().statusCode(404);
 
     }
 
@@ -45,8 +60,8 @@ public class APITest {
                 .then()
                 .log().all()
                 .assertThat().statusCode(200)
-                .assertThat().body("page", Matchers.equalTo(1)); // validasi output
-//                .assertThat().body("data.id",Matchers.hasSize(6));
+                .assertThat().body("page", Matchers.equalTo(1)) // validasi output
+                .assertThat().body("data.id",Matchers.hasSize(6));
     }
 
     @Test
@@ -155,6 +170,26 @@ public class APITest {
                 .when().delete(URL + userToDelete)
                 .then().log().all()
                 .assertThat().statusCode(204);
+
+    }
+
+    @Test
+    public void validateJsonSchemaGetSingleUser() {
+        //baseURL
+        RestAssured.baseURI = baseURL;
+
+        // id user
+        int userToGet     = 5;
+
+        //file Path Json Schema
+        File pathFile = new File("src/test/resources/jsonSchema/getSingleUserJsonSchema.json");
+
+//      Test Get API
+        given().log().all()
+                .when().get(URL+userToGet)
+                .then().log().all()
+                .assertThat().statusCode(200)
+                .assertThat().body(JsonSchemaValidator.matchesJsonSchema(pathFile)); // validasi output
 
     }
 

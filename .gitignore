@@ -5,6 +5,7 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
+.idea/
 .idea/modules.xml
 .idea/gradle.xml
 .idea/misc.xml
@@ -43,3 +44,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Allure ####
+allure-results/
