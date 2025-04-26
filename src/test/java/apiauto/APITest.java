@@ -27,9 +27,11 @@ public class APITest {
         int userId     =  5 ;
 
 //      user perpage
-        given().when().get(URL+userId)
-                .then()
-                .log().all()
+        given().log().all()
+//                when().get(URL+userId)
+                .header("x-api-key","reqres-free-v1")
+                .get(URL + userId)
+                .then().log().all()
                 .assertThat().statusCode(200)
                 .assertThat().body("data.id", Matchers.equalTo(5)); // validasi output
 
@@ -44,9 +46,11 @@ public class APITest {
         String userId     = "A";
 
         // user perpage
-        given().when().get(URL+userId)
-                .then()
-                .log().all()
+        given().log().all()
+//                .when().get(URL+userId)
+                .header("x-api-key","reqres-free-v1")
+                .get(URL + userId)
+                .then().log().all()
                 .assertThat().statusCode(404);
 
     }
@@ -56,9 +60,11 @@ public class APITest {
         //baseURL
         RestAssured.baseURI = baseURL;
         // user perpage
-        given().when().get(URL +"?page=1")
-                .then()
-                .log().all()
+        given().log().all()
+//                when().get(URL +"?page=1")
+                .header("x-api-key","reqres-free-v1")
+                .get(URL +"?page=1")
+                .then().log().all()
                 .assertThat().statusCode(200)
                 .assertThat().body("page", Matchers.equalTo(1)) // validasi output
                 .assertThat().body("data.id",Matchers.hasSize(6));
@@ -77,6 +83,7 @@ public class APITest {
         fieldJson.put("job" ,pekerjaan  );
         //include header Json format
         given().log().all() // for print entire request to console
+                .header("x-api-key","reqres-free-v1")
                 .header("Content-Type","application/json")
                 .header("Accept","application/json")
                 .body(fieldJson.toString())
@@ -120,6 +127,7 @@ public class APITest {
         //include header Json format
         given().log().all() // for print entire request to console
                 .header("Content-Type","application/json")
+                .header("x-api-key","reqres-free-v1")
 //                .header("Accept","application/json")
                 .body(fieldJson.toString())
                 .put(URL + userId)
@@ -150,6 +158,7 @@ public class APITest {
 
         given().log().all()
                 .header("Content-Type","application/json")
+                .header("x-api-key","reqres-free-v1")
                 .body(fieldJson.toString())
                 .put(URL + userId)
                 .then().log().all()
@@ -167,6 +176,7 @@ public class APITest {
         int userToDelete     = 4;
 
         given().log().all()
+                .header("x-api-key","reqres-free-v1")
                 .when().delete(URL + userToDelete)
                 .then().log().all()
                 .assertThat().statusCode(204);
@@ -186,6 +196,7 @@ public class APITest {
 
 //      Test Get API
         given().log().all()
+                .header("x-api-key","reqres-free-v1")
                 .when().get(URL+userToGet)
                 .then().log().all()
                 .assertThat().statusCode(200)
